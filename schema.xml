@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+  <table name="categoria_post" idMethod="native" phpName="CategoriaPost">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="nome" phpName="Nome" type="VARCHAR" size="255" required="true"/>
+    <column name="descricao" phpName="Descricao" type="LONGVARCHAR"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="categoria_report" idMethod="native" phpName="CategoriaReport">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="nome" phpName="Nome" type="VARCHAR" size="255" required="true"/>
+    <column name="descricao" phpName="Descricao" type="LONGVARCHAR"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="cidade" idMethod="native" phpName="Cidade">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="nome" phpName="Nome" type="VARCHAR" size="255" required="true"/>
+    <column name="uf" phpName="Uf" type="VARCHAR" size="2" required="true"/>
+    <unique name="IDX_CIDADE">
+      <unique-column name="nome"/>
+      <unique-column name="uf"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="comunidade" idMethod="native" phpName="Comunidade">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="nome" phpName="Nome" type="VARCHAR" size="255" required="true"/>
+    <column name="idCidade" phpName="Idcidade" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="cidade" name="FK_COMUNIDADE_CIDADE">
+      <reference local="idCidade" foreign="id"/>
+    </foreign-key>
+    <index name="FK_COMUNIDADE_CIDADE_idx">
+      <index-column name="idCidade"/>
+    </index>
+    <unique name="IDX_COMUNIDADE">
+      <unique-column name="nome"/>
+      <unique-column name="idCidade"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="post" idMethod="native" phpName="Post">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="titulo" phpName="Titulo" type="VARCHAR" size="255" required="true"/>
+    <column name="texto" phpName="Texto" type="LONGVARCHAR" required="true"/>
+    <column name="idUsuario" phpName="Idusuario" type="INTEGER" required="true"/>
+    <column name="visualizacoes" phpName="Visualizacoes" type="INTEGER" required="true" defaultValue="0"/>
+    <column name="dataCriacao" phpName="Datacriacao" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
+    <column name="status" phpName="Status" type="CHAR" sqlType="enum('AGUARDANDO','REJEITADO','APROVADO')" required="true" defaultValue="AGUARDANDO"/>
+    <column name="capa" phpName="Capa" type="VARCHAR" size="255"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="post_categoria" idMethod="native" phpName="PostCategoria">
+    <column name="idPost" phpName="Idpost" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idCategoria" phpName="Idcategoria" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="categoria_post" name="FK_CATEGORIA" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="idCategoria" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="post" name="FK_POSTT" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="idPost" foreign="id"/>
+    </foreign-key>
+    <index name="FK_CATEGORIA_idx">
+      <index-column name="idCategoria"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="post_report" idMethod="native" phpName="PostReport">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="idPost" phpName="Idpost" type="INTEGER"/>
+    <column name="idReport" phpName="Idreport" type="INTEGER"/>
+    <foreign-key foreignTable="post" name="FK_POST" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="idPost" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="report" name="FK_REPORT">
+      <reference local="idReport" foreign="id"/>
+    </foreign-key>
+    <index name="FK_POST_idx">
+      <index-column name="idPost"/>
+    </index>
+    <index name="FK_REPORT_idx">
+      <index-column name="idReport"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="post_tags" idMethod="native" phpName="PostTags">
+    <column name="idPost" phpName="Idpost" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idTag" phpName="Idtag" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="post" name="FK_POST_TAGS" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="idPost" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="tags" name="FK_TAGS_POST" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="idTag" foreign="id"/>
+    </foreign-key>
+    <index name="FK_TAGS_POST_idx">
+      <index-column name="idTag"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="report" idMethod="native" phpName="Report">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="idUsuario" phpName="Idusuario" type="INTEGER" required="true"/>
+    <column name="comentario" phpName="Comentario" type="LONGVARCHAR" required="true"/>
+    <column name="idCategoria" phpName="Idcategoria" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="categoria_report" name="FK_REPORT_CATEGORIA">
+      <reference local="idCategoria" foreign="id"/>
+    </foreign-key>
+    <index name="FK_REPORT_CATEGORIA_idx">
+      <index-column name="idCategoria"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="tags" idMethod="native" phpName="Tags">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="nome" phpName="Nome" type="VARCHAR" size="255" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="usuario" idMethod="native" phpName="Usuario">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="nome" phpName="Nome" type="VARCHAR" size="255" required="true"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="255" required="true"/>
+    <column name="senha" phpName="Senha" type="VARCHAR" size="255" required="true"/>
+    <column name="tipo" phpName="Tipo" type="CHAR" size="3" required="true" defaultValue="usr"/>
+    <column name="status" phpName="Status" type="TINYINT" required="true" defaultValue="1"/>
+    <column name="telefone" phpName="Telefone" type="VARCHAR" size="45"/>
+    <column name="foto" phpName="Foto" type="VARCHAR" size="255"/>
+    <column name="idComunidade" phpName="Idcomunidade" type="INTEGER"/>
+    <foreign-key foreignTable="comunidade" name="FK_USUARIO_COMUNIDADE">
+      <reference local="idComunidade" foreign="id"/>
+    </foreign-key>
+    <index name="FK_USUARIO_COMUNIDADE_idx">
+      <index-column name="idComunidade"/>
+    </index>
+    <unique name="email_UNIQUE">
+      <unique-column name="email"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+</database>

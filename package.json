@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "build:css": "postcss public/css/main.css -o build/main.css",
+    "watch": "watch 'npm run build:css' ./public/css"
+  },
+  "dependencies": {
+    "autoprefixer": "^9.8.6",
+    "cpf-cnpj-validator": "^1.0.3",
+    "postcss-cli": "^7.1.1",
+    "tailwindcss": "^1.6.0",
+    "tinymce": "^5.4.2",
+    "watch": "^1.0.2"
+  }
+}

@@ -1,0 +1,89 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+.cover {
+    width: 100%;
+    height: 50vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 0;
+}
+
+#sidebar .logo {
+    position: relative;
+    overflow: hidden;
+}
+
+#sidebar .logo:hover::after {
+    content: 'Alterar Perfil';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.3);
+    color: white;
+    text-align: center;
+    line-height: 120px;
+}
+
+
+/* PROFILE PICTURE INPUT */
+
+.img-preview {
+    width: 12rem;
+    height: 12rem;
+    position: relative;
+    border-radius: 100%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.img-preview:hover::after {
+    content: 'Alterar imagem de perfil';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.3);
+    color: white;
+    text-align: center;
+    line-height: 12rem;
+}
+
+.img-preview img {
+    max-width: none !important;
+    height: 100%;
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    bottom: -9999px;
+    right: -9999px;
+    margin: auto;
+}
+
+.img-preview input {
+    visibility: hidden;
+}
+
+/* BLOG */
+
+.post-thumb {
+    width: 100%;
+    padding: .75rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.post-thumb img {
+    width: 40%;
+}
+
+.post-thumb .post-info {
+    width: 55%;
+}
