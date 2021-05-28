@@ -8,7 +8,7 @@
     "cpf-cnpj-validator": "^1.0.3",
     "postcss-cli": "^7.1.1",
     "tailwindcss": "^1.6.0",
-    "tinymce": "^5.4.2",
+    "tinymce": "^5.7.1",
     "watch": "^1.0.2"
   }
 }
